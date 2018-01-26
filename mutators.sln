@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nop_mutator", "nop_mutator\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "radamsa_mutator", "radamsa_mutator\radamsa_mutator.vcxproj", "{92EA54C0-8575-4A17-993F-50A5D8D8461D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "honggfuzz_mutator", "honggfuzz_mutator\honggfuzz_mutator.vcxproj", "{FCCCB741-8F78-4205-85F1-C8C76D78E096}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bit_flip_mutator", "bit_flip_mutator\bit_flip_mutator.vcxproj", "{EC034DE5-ACF2-49C6-93B1-CF59F115F2ED}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mutator_tester", "mutator_tester\mutator_tester.vcxproj", "{1DCA7CEB-ADA5-4F17-95A0-42B1BDF7608A}"
@@ -45,6 +47,14 @@ Global
 		{92EA54C0-8575-4A17-993F-50A5D8D8461D}.Release|x64.Build.0 = Release|x64
 		{92EA54C0-8575-4A17-993F-50A5D8D8461D}.Release|x86.ActiveCfg = Release|Win32
 		{92EA54C0-8575-4A17-993F-50A5D8D8461D}.Release|x86.Build.0 = Release|Win32
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Debug|x64.ActiveCfg = Debug|x64
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Debug|x64.Build.0 = Debug|x64
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Debug|x86.ActiveCfg = Debug|Win32
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Debug|x86.Build.0 = Debug|Win32
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Release|x64.ActiveCfg = Release|x64
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Release|x64.Build.0 = Release|x64
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Release|x86.ActiveCfg = Release|Win32
+		{FCCCB741-8F78-4205-85F1-C8C76D78E096}.Release|x86.Build.0 = Release|Win32
 		{EC034DE5-ACF2-49C6-93B1-CF59F115F2ED}.Debug|x64.ActiveCfg = Debug|x64
 		{EC034DE5-ACF2-49C6-93B1-CF59F115F2ED}.Debug|x64.Build.0 = Debug|x64
 		{EC034DE5-ACF2-49C6-93B1-CF59F115F2ED}.Debug|x86.ActiveCfg = Debug|Win32

@@ -71,7 +71,6 @@ RADAMSA_MUTATOR_API radamsa_state_t * setup_options(char * options)
 	memset(state, 0, sizeof(radamsa_state_t));
 
 	//Setup defaults
-	srand((unsigned int)time(NULL));
 	state->path = _strdup("C:\\killerbeez\\radamsa\\radamsa\\bin\\radamsa.exe"); //strdup'd so we can uniformly free it later
 	state->port = 10000 + (rand() % 50000);
 	state->seed = rand();
