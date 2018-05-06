@@ -1,4 +1,4 @@
-test_build:
+release:
   script:
     - C:\killerbeez\release.bat
   tags:
