@@ -14,10 +14,10 @@ SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/../build/mutators/ )
 LINK_DIRECTORIES(${CMAKE_SOURCE_DIR}/../build/killerbeez/)
 endif (WIN32)
 
-include_directories (${CMAKE_SOURCE_DIR}/../utils/jansson/)
-include_directories (${CMAKE_SOURCE_DIR}/../utils/utils/)
+include_directories (${CMAKE_SOURCE_DIR}/../killerbeez-utils/jansson/)
+include_directories (${CMAKE_SOURCE_DIR}/../killerbeez-utils/utils/)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/../utils/ ${CMAKE_BINARY_DIR}/utils)
+add_subdirectory(${CMAKE_SOURCE_DIR}/../killerbeez-utils/ ${CMAKE_BINARY_DIR}/../killerbeez-utils/)
 
 # The general mutator library with the common functionality
 add_subdirectory(mutators)
