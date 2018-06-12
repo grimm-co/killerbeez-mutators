@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (havoc_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/havoc_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(HAVOC_SRC ${PROJECT_SOURCE_DIR}/havoc_mutator.c)
 source_group("Library Sources" FILES ${HAVOC_SRC})

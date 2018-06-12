@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (mutator_tester)
 
-include_directories (${PROJECT_SOURCE_DIR}/)
-
 set(MUTATOR_TESTER_SRC ${PROJECT_SOURCE_DIR}/mutator_tester.c)
 source_group("Executable Sources" FILES ${MUTATOR_TESTER_SRC})
 add_executable(mutator_tester ${MUTATOR_TESTER_SRC}

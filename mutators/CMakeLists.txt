@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (mutators)
 
-include_directories (${PROJECT_SOURCE_DIR}/)
-
 set(MUTATORS_SRC
 	${PROJECT_SOURCE_DIR}/mutators.c
 	${PROJECT_SOURCE_DIR}/afl_helpers.c

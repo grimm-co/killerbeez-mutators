@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (manager_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/manager_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(MANAGER_SRC ${PROJECT_SOURCE_DIR}/manager_mutator.c)
 source_group("Library Sources" FILES ${MANAGER_SRC})
