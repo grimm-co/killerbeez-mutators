@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (bit_flip_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/bit_flip_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(BIT_FLIP_SRC ${PROJECT_SOURCE_DIR}/bit_flip_mutator.c)
 source_group("Library Sources" FILES ${BIT_FLIP_SRC})
