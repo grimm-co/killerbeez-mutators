@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (interesting_value_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/interesting_value_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(INTERESTING_VALUE_SRC ${PROJECT_SOURCE_DIR}/interesting_value_mutator.c)
 source_group("Library Sources" FILES ${INTERESTING_VALUE_SRC})

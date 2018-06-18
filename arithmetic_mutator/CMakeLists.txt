@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (arithmetic_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/arithmetic_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(ARITHMETIC_SRC ${PROJECT_SOURCE_DIR}/arithmetic_mutator.c)
 source_group("Library Sources" FILES ${ARITHMETIC_SRC})

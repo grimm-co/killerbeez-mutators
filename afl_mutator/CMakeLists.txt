@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (afl_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/afl_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(AFL_SRC ${PROJECT_SOURCE_DIR}/afl_mutator.c)
 source_group("Library Sources" FILES ${AFL_SRC})

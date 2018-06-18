@@ -106,7 +106,7 @@ static void free_mutator_arrays(char ** inputs, size_t * input_lengths, size_t i
 
 static int setup_mutators(manager_state_t * manager_state, char * mutator_options, char * mutator_states, char * mutator_inputs)
 {
-	size_t inputs_count, i, j;
+	size_t inputs_count, i;
 	char **inputs = NULL, **options = NULL, **states = NULL, *option, *state;
 	int num_options, num_states, all_use_same_options, all_use_same_states;
 	size_t * input_lengths;

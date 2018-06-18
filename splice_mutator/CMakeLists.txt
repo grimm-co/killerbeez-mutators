@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 2.8.8)
 project (splice_mutator)
 
-include_directories (${CMAKE_SOURCE_DIR}/splice_mutator/)
-include_directories (${CMAKE_SOURCE_DIR}/mutators/)
+include_directories (${PROJECT_SOURCE_DIR}/../mutators/)
 
 set(SPLICE_SRC ${PROJECT_SOURCE_DIR}/splice_mutator.c)
 source_group("Library Sources" FILES ${SPLICE_SRC})
