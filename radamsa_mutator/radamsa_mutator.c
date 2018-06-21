@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #ifdef _WIN32
 #include <process.h>
@@ -104,6 +105,7 @@ RADAMSA_MUTATOR_API radamsa_state_t * setup_options(char * options)
 		return NULL;
 	memset(state, 0, sizeof(radamsa_state_t));
 
+	srand(time(NULL));
 	//Setup defaults
 	state->port = 10000 + (rand() % 50000);
 	state->seed = rand();
