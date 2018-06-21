@@ -20,7 +20,7 @@ endif (WIN32)
 include_directories (${CMAKE_SOURCE_DIR}/../killerbeez-utils/jansson/)
 include_directories (${CMAKE_SOURCE_DIR}/../killerbeez-utils/utils/)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/../killerbeez-utils/ ${CMAKE_BINARY_DIR}/../killerbeez-utils/)
+add_subdirectory(${CMAKE_SOURCE_DIR}/../killerbeez-utils/ ${CMAKE_BINARY_DIR}/killerbeez-utils/)
 
 # The general mutator library with the common functionality
 add_subdirectory(mutators)
