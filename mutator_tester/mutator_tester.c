@@ -15,6 +15,7 @@
 #include <windows.h>
 #else
 #include <dlfcn.h>
+#include <unistd.h>
 #endif
 
 //The list of test functions
@@ -26,6 +27,7 @@ static test_info_t test_info[NUM_TESTS] =
 	{ test_thread_mutate, "Test the thread safe mutate function. Only non-repeating mutators will pass this test" },
 	{ test_run_forever, "Test the mutate() function by mutating the given buffer endlessly." },
 	{ test_mutate_parts, "Test the mutate_input_part() function." },
+	{ test_mutate_once, "Call the mutate() function once and print the output" },
 };
 
 static test_function test_all_tests[] =
@@ -33,7 +35,8 @@ static test_function test_all_tests[] =
 	test_mutate,
 	test_state,
 	test_thread_mutate,
-	test_mutate_parts
+	test_mutate_parts,
+	test_mutate_once
 };
 
 /** This function sets up the mutator for testing. This test program is designed
@@ -88,7 +91,6 @@ int main(int argc, char *argv[])
 		seed_length = 8;
 		seed_buffer = (char *)malloc(seed_length);
 		memset(seed_buffer, 0, seed_length);
-		printf("Seed file not specified: Using default data\n");
 	}
 	else
 	{
@@ -101,8 +103,6 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 	}
-
-	printf("Loaded %zi bytes as seed data\n", seed_length);
 
 	//Load the DLL
 	mutator = mutator_factory(mutator_path);
@@ -123,7 +123,8 @@ int main(int argc, char *argv[])
 		ret = 100 + test_num;
 
 	mutator->cleanup(mutator_state);
-	printf("Done\n");
+	free(mutator);
+	free(seed_buffer);
 	return ret;
 }
 
@@ -358,7 +359,7 @@ int test_state(mutator_t * mutator, void * mutator_state, char * mutator_options
 	mutator->free_state(new_saved_state_buffer);
 	if (new_JSON_state == NULL) {
 		printf("Failed to convert new JSON string to JSON object\n");
-		free(old_JSON_state);
+		json_decref(old_JSON_state);
 		free(mutate_buffer);
 		free(new_mutate_buffer);
 		mutator->cleanup(new_mutator_state);
@@ -366,13 +367,15 @@ int test_state(mutator_t * mutator, void * mutator_state, char * mutator_options
 	}
 	if (!json_equal(old_JSON_state, new_JSON_state)) {
 		printf("The mutator failed to restore state properly\n");
+		json_decref(old_JSON_state);
+		json_decref(new_JSON_state);
 		free(mutate_buffer);
 		free(new_mutate_buffer);
 		mutator->cleanup(new_mutator_state);
 		return 1;
 	}
-	free(old_JSON_state);
-	free(new_JSON_state);
+	json_decref(old_JSON_state);
+	json_decref(new_JSON_state);
 	printf("The saved states are equal, this is expected\n");
 
 	//Get the iteration count and call mutate once, just to make sure that they work
@@ -448,7 +451,11 @@ void * mutate_racer(void * mutator_state)
 			break;
 	}
 
+#ifdef _WIN32
 	return index;
+#else
+	return NULL;
+#endif
 }
 
 /**
@@ -598,3 +605,20 @@ int test_mutate_parts(mutator_t * mutator, void * mutator_state, char * mutator_
 	free(mutate_buffer);
 	return 0;
 }
+
+int test_mutate_once(mutator_t * mutator, void * mutator_state, char * mutator_options, char * seed_buffer, size_t seed_length) {
+	size_t max_length = 5 * 1024 * 1024; //Allow for very large mutations
+	char * mutate_buffer;
+	int mutate_length;
+
+	mutate_buffer = (char *)malloc(max_length);
+	memset(mutate_buffer, 0, max_length);
+
+	mutate_length = mutator->mutate(mutator_state, mutate_buffer, max_length);
+	if(mutate_length < 0)
+		return -1;
+	write(1, mutate_buffer, mutate_length);
+	free(mutate_buffer);
+	return 0;
+}
+
