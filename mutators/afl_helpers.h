@@ -3,8 +3,8 @@
 #include "mutators.h"
 #include "afl_types.h"
 
-#include "utils.h"
-#include "jansson_helper.h"
+#include <utils.h>
+#include <jansson_helper.h>
 
 typedef struct {
 	u8* s;

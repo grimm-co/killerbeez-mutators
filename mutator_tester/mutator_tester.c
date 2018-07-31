@@ -1,10 +1,10 @@
 #include "mutator_tester.h"
-#include "global_types.h"
-#include "utils.h"
-#include "mutator_factory.h"
 
+#include <global_types.h>
 #include <jansson.h>
 #include <jansson_helper.h>
+#include <mutator_factory.h>
+#include <utils.h>
 
 #include <string.h>
 #include <stdlib.h>

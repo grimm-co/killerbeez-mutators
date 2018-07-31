@@ -1,8 +1,8 @@
-#include "afl_config.h"
-#include "afl_helpers.h"
+#include <afl_config.h>
+#include <afl_helpers.h>
+#include <afl_types.h>
+#include <mutators.h>
 #include "afl_mutator.h"
-#include "afl_types.h"
-#include "mutators.h"
 
 #include <global_types.h>
 #include <jansson_helper.h>

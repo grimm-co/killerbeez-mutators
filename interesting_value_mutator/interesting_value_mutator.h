@@ -1,7 +1,7 @@
 #pragma once
 
 #include <global_types.h>
-#include "mutators.h"
+#include <mutators.h>
 
 #ifdef _WIN32
 #ifdef INTERESTING_VALUE_MUTATOR_EXPORTS
