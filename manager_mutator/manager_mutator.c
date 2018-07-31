@@ -1,6 +1,5 @@
 #include "manager_mutator.h"
-#include "mutators.h"
-#include "mutator_factory.h"
+#include <mutators.h>
 
 #ifdef _WIN32
 #include <Shlwapi.h>
@@ -14,6 +13,7 @@
 #include <string.h>
 
 #include <utils.h>
+#include <mutator_factory.h>
 #include <jansson.h>
 #include <jansson_helper.h>
 

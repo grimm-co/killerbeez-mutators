@@ -1,5 +1,5 @@
 #pragma once
-#include "global_types.h"
+#include <global_types.h>
 
 //Helper functions
 void * setup_mutator(mutator_t * mutator, char * mutator_options, char * seed_buffer, size_t seed_length);

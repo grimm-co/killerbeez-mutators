@@ -1,6 +1,6 @@
 #include "dictionary_mutator.h"
-#include "mutators.h"
-#include "afl_helpers.h"
+#include <mutators.h>
+#include <afl_helpers.h>
 
 #include <stdio.h>
 #include <stdlib.h>

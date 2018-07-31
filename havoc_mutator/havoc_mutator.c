@@ -1,7 +1,7 @@
 #include "havoc_mutator.h"
-#include "mutators.h"
-#include "afl_helpers.h"
-#include "afl_config.h"
+#include <mutators.h>
+#include <afl_helpers.h>
+#include <afl_config.h>
 
 #include <stdio.h>
 #include <stdlib.h>
