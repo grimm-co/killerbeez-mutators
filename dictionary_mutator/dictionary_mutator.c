@@ -257,13 +257,16 @@ DICTIONARY_MUTATOR_API void FUNCNAME(get_input_info)(void * mutator_state, int *
 DICTIONARY_MUTATOR_API int FUNCNAME(help)(char **help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"dictionary - afl-based dictionary mutator\n"
-		"Options:\n"
-		"\tdictionary            A file or directory containing dictionary to use while mangling input\n"
-		"\toperation             The operation to perform with each dictionary item.  Either, overwrite or\n"
-		"\t                      insert.  Default option is both.\n"
-		"\trandom_state0         The first half of the seed to afl's random number generator\n"
-		"\trandom_state1         The second half of the seed to afl's random number generator\n"
-		"\n"
+"dictionary - afl-based dictionary mutator\n"
+"Options:\n"
+"  dictionary            A file or directory containing dictionary to use while\n"
+"                          mangling input\n"
+"  operation             The operation to perform with each dictionary item.\n"
+"                          Either, overwrite or insert.  Default option is both.\n"
+"  random_state0         The first half of the seed to afl's random number\n"
+"                          generator\n"
+"  random_state1         The second half of the seed to afl's random number\n"
+"                          generator\n"
+"\n"
 	);
 }

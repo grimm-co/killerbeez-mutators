@@ -259,12 +259,15 @@ INTERESTING_VALUE_MUTATOR_API void FUNCNAME(get_input_info)(void * mutator_state
 INTERESTING_VALUE_MUTATOR_API int FUNCNAME(help)(char **help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"interesting_value - afl-based interesting value mutator\n"
-		"Options:\n"
-		"\tnum_bytes             The number of bytes to operate on; either 1, 2, or 4. The default option is to\n"
-		"\t                      do all three of the options, one after another.\n"
-		"\tskip_previous_stages  Whether the mutation outputs should skip any output that would match the output\n"
-		"\t                      of the bit_flip or arithmetic mutator.  Useful when using multiple mutators\n"
-		"\n"
+"interesting_value - afl-based interesting value mutator\n"
+"Options:\n"
+"  num_bytes             The number of bytes to operate on; either 1, 2, or 4.\n"
+"                          The default option is to do all three of the\n"
+"                          options, one after another.\n"
+"  skip_previous_stages  Whether the mutation outputs should skip any output\n"
+"                          that would match the output of the bit_flip or\n"
+"                          arithmetic mutator.  Useful when using multiple\n"
+"                          mutators\n"
+"\n"
 	);
 }
