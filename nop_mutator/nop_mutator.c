@@ -151,7 +151,7 @@ NOP_MUTATOR_API int FUNCNAME(help)(char** help_str)
 	GENERIC_MUTATOR_HELP(
 		"nop - NOP mutator (doesn't mutate the input)\n"
 		"Options:\n"
-		"\tNone\n"
+		"  None\n"
 		"\n"
 	);
 }
