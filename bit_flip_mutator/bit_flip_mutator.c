@@ -1,6 +1,6 @@
 #include "bit_flip_mutator.h"
-#include "mutators.h"
-#include "afl_helpers.h"
+#include <mutators.h>
+#include <afl_helpers.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -289,10 +289,11 @@ BF_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_input, s
 BF_MUTATOR_API int FUNCNAME(help)(char **help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"bit_flip - afl-based bit flip mutator\n"
-		"Options:\n"
-		"\tnum_bits              The number of bits to operate on; either 1, 2, 4, 8, 16, or 32. The default option\n"
-		"\t                      is to do all six of the options, one after another.\n"
-		"\n"
+"bit_flip - afl-based bit flip mutator\n"
+"Options:\n"
+"  num_bits              The number of bits to operate on; either 1, 2, 4, 8,\n"
+"                          16, or 32. The default option is to do all six of\n"
+"                          the options, one after another.\n"
+"\n"
 	);
 }

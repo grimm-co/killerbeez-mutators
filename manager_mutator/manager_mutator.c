@@ -1,6 +1,5 @@
 #include "manager_mutator.h"
-#include "mutators.h"
-#include "mutator_factory.h"
+#include <mutators.h>
 
 #ifdef _WIN32
 #include <Shlwapi.h>
@@ -14,6 +13,7 @@
 #include <string.h>
 
 #include <utils.h>
+#include <mutator_factory.h>
 #include <jansson.h>
 #include <jansson_helper.h>
 
@@ -553,13 +553,14 @@ MANAGER_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_inp
 MANAGER_MUTATOR_API int FUNCNAME(help)(char **help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"manager - a mutator to manage multiple mutators\n"
-		"Required Options:\n"
-		"\tmutators              An array of mutator names or library filenames that the manager\n"
-		"\t                      mutator should use to mutate the input.\n"
-		"Optional Options:\n"
-		"\tmutator_directory     The directory to look for other mutator libraries in\n"
-		"\toptions               An array of mutator options to pass to each mutator used\n"
-		"\n"
+"manager - a mutator to manage multiple mutators\n"
+"Required Options:\n"
+"  mutators              An array of mutator names or library filenames that\n"
+"                          the manager\n"
+"                        mutator should use to mutate the input.\n"
+"Optional Options:\n"
+"  mutator_directory     The directory to look for other mutator libraries in\n"
+"  options               An array of mutator options to pass to each mutator used\n"
+"\n"
 	);
 }

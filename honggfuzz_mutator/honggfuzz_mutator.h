@@ -1,8 +1,8 @@
 #pragma once
 
 #include <global_types.h>
-#include "mutators.h"
-#include "afl_types.h" //grab the definition of MIN/MAX
+#include <mutators.h>
+#include <afl_types.h> //grab the definition of MIN/MAX
 
 #ifdef _WIN32
 #ifdef HONGGFUZZ_MUTATOR_EXPORTS

@@ -362,13 +362,14 @@ RADAMSA_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_inp
 RADAMSA_MUTATOR_API int FUNCNAME(help)(char** help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"radamsa - Radamsa mutator (Starts and calls radamsa to mutate input)\n"
-		"Options:\n"
-		"\tpath                  The path to radamsa.exe\n"
-		"\tport                  The port to tell radamsa to bind to when starting up\n"
-		"\tradamsa_iteration     The number of iterations to seek forward in the radamsa output\n"
-		"\tseed                  The random seed to use when mutating\n"
-		"\n"
+"radamsa - Radamsa mutator (Starts and calls radamsa to mutate input)\n"
+"Options:\n"
+"  path                  The path to radamsa.exe\n"
+"  port                  The port to tell radamsa to bind to when starting up\n"
+"  radamsa_iteration     The number of iterations to seek forward in the\n"
+"                          radamsa output\n"
+"  seed                  The random seed to use when mutating\n"
+"\n"
 	);
 }
 

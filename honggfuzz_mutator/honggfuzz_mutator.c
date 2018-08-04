@@ -1,5 +1,5 @@
 #include "honggfuzz_mutator.h"
-#include "mutators.h"
+#include <mutators.h>
 
 #include <utils.h>
 #include <jansson.h>
@@ -1092,12 +1092,16 @@ HONGGFUZZ_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_i
 HONGGFUZZ_MUTATOR_API int FUNCNAME(help)(char ** help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"honggfuzz - honggfuzz-based mutator\n"
-		"Options:\n"
-		"\tdictionary_file       A file containing dictionary words to use while mangling input\n"
-		"\tmutations_per_run     The number of different mangle functions to apply per single round of mutating the input\n"
-		"\trandom_state0         The first half of the seed to honggfuzz's random number generator\n"
-		"\trandom_state1         The second half of the seed to honggfuzz's random number generator\n"
-		"\n"
+"honggfuzz - honggfuzz-based mutator\n"
+"Options:\n"
+"  dictionary_file       A file containing dictionary words to use while\n"
+"                          mangling input\n"
+"  mutations_per_run     The number of different mangle functions to apply per\n"
+"                          single round of mutating the input\n"
+"  random_state0         The first half of the seed to honggfuzz's random\n"
+"                          number generator\n"
+"  random_state1         The second half of the seed to honggfuzz's random\n"
+"                          number generator\n"
+"\n"
 	);
 }

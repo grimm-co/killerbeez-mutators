@@ -38,6 +38,7 @@ add_subdirectory(ni_mutator)
 add_subdirectory(nop_mutator)
 add_subdirectory(splice_mutator)
 add_subdirectory(radamsa_mutator)
+add_subdirectory(zzuf_mutator)
 
 # The mutator test program
 add_subdirectory(mutator_tester)
