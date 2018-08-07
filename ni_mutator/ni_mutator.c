@@ -921,11 +921,14 @@ NI_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_input, s
 NI_MUTATOR_API int FUNCNAME(help)(char ** help_str)
 {
 	GENERIC_MUTATOR_HELP(
-		"ni - ni-based mutator\n"
-		"Options:\n"
-		"\trandom_state0         The first half of the seed to honggfuzz's random number generator\n"
-		"\trandom_state1         The second half of the seed to honggfuzz's random number generator\n"
-		"\tsamples               An array of files containing other samples to mutate with the given input\n"
-		"\n"
+"ni - ni-based mutator\n"
+"Options:\n"
+"  random_state0         The first half of the seed to honggfuzz's random\n"
+"                          number generator\n"
+"  random_state1         The second half of the seed to honggfuzz's random\n"
+"                          number generator\n"
+"  samples               An array of files containing other samples to mutate\n"
+"                          with the given input\n"
+"\n"
 	);
 }
