@@ -1,4 +1,4 @@
-#include "manager_mutator.h"
+#include "multipart_mutator.h"
 #include <mutators.h>
 
 #ifdef _WIN32
@@ -25,7 +25,7 @@ typedef struct
 	mutator_t ** mutators;
 	void ** mutator_states;
 	size_t mutator_count;
-} manager_state_t;
+} multipart_state_t;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // Helper functions ///////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ static void free_mutator_arrays(char ** inputs, size_t * input_lengths, size_t i
 	free(input_lengths);
 }
 
-static int setup_mutators(manager_state_t * manager_state, char * mutator_options, char * mutator_states, char * mutator_inputs)
+static int setup_mutators(multipart_state_t * multipart_state, char * mutator_options, char * mutator_states, char * mutator_inputs)
 {
 	size_t inputs_count, i;
 	char **inputs = NULL, **options = NULL, **states = NULL, *option, *state;
@@ -122,7 +122,7 @@ static int setup_mutators(manager_state_t * manager_state, char * mutator_option
 	num_options = get_json_items(mutator_options, "options", &options, &all_use_same_options);
 	num_states = get_json_items(mutator_states, NULL, &states, &all_use_same_states);
 
-	if (inputs_count != manager_state->mutator_count
+	if (inputs_count != multipart_state->mutator_count
 		|| (num_options != 0 && !all_use_same_options && num_options != inputs_count)
 		|| (num_states != 0 && !all_use_same_states && num_states != inputs_count))
 	{
@@ -130,13 +130,13 @@ static int setup_mutators(manager_state_t * manager_state, char * mutator_option
 		return 1;
 	}
 
-	manager_state->mutators = calloc(inputs_count, sizeof(mutator_t *));
-	manager_state->mutator_states = calloc(inputs_count, sizeof(void *));
-	if(!manager_state->mutators || !manager_state->mutator_states) {
-		free(manager_state->mutators);
-		free(manager_state->mutator_states);
-		manager_state->mutators = NULL;
-		manager_state->mutator_states = NULL;
+	multipart_state->mutators = calloc(inputs_count, sizeof(mutator_t *));
+	multipart_state->mutator_states = calloc(inputs_count, sizeof(void *));
+	if(!multipart_state->mutators || !multipart_state->mutator_states) {
+		free(multipart_state->mutators);
+		free(multipart_state->mutator_states);
+		multipart_state->mutators = NULL;
+		multipart_state->mutator_states = NULL;
 		free_mutator_arrays(inputs, input_lengths, inputs_count, options, num_options, states, num_states);
 		return 1;
 	}
@@ -144,8 +144,8 @@ static int setup_mutators(manager_state_t * manager_state, char * mutator_option
 	for (i = 0; i < inputs_count; i++)
 	{
 		//Create the mutator and get its state
-		manager_state->mutators[i] = mutator_factory_directory(manager_state->mutator_directory, manager_state->mutator_names[i]);
-		if (manager_state->mutators[i]) {
+		multipart_state->mutators[i] = mutator_factory_directory(multipart_state->mutator_directory, multipart_state->mutator_names[i]);
+		if (multipart_state->mutators[i]) {
 			option = NULL;
 			if (all_use_same_options)
 				option = options[0];
@@ -157,14 +157,14 @@ static int setup_mutators(manager_state_t * manager_state, char * mutator_option
 			else if (num_states != 0)
 				state = states[i];
 
-			manager_state->mutator_states[i] = manager_state->mutators[i]->create(option, state, inputs[i], input_lengths[i]);
+			multipart_state->mutator_states[i] = multipart_state->mutators[i]->create(option, state, inputs[i], input_lengths[i]);
 		}
 
-		if (!manager_state->mutator_states[i] || !manager_state->mutators[i])
+		if (!multipart_state->mutator_states[i] || !multipart_state->mutators[i])
 		{
-			printf("Unknown mutator %s, bad mutator options, or bad saved state for mutator %lu\n", manager_state->mutator_names[i], i);
-			free(manager_state->mutators[i]); //free the one that failed, if it did
-			manager_state->mutators[i] = NULL;
+			printf("Unknown mutator %s, bad mutator options, or bad saved state for mutator %lu\n", multipart_state->mutator_names[i], i);
+			free(multipart_state->mutators[i]); //free the one that failed, if it did
+			multipart_state->mutators[i] = NULL;
 			free_mutator_arrays(inputs, input_lengths, inputs_count, options, num_options, states, num_states);
 			return 1;
 		}
@@ -178,13 +178,13 @@ static int setup_mutators(manager_state_t * manager_state, char * mutator_option
 // Mutator Functions //////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-mutator_t manager_mutator = {
+mutator_t multipart_mutator = {
 	FUNCNAME(create),
 	FUNCNAME(cleanup),
 	FUNCNAME(mutate),
 	FUNCNAME(mutate_extended),
 	FUNCNAME(get_state),
-	manager_free_state,
+	multipart_free_state,
 	FUNCNAME(set_state),
 	FUNCNAME(get_current_iteration),
 	FUNCNAME(get_total_iteration_count),
@@ -199,9 +199,9 @@ mutator_t manager_mutator = {
  * @return none
  */
 #ifndef ALL_MUTATORS_IN_ONE
-MANAGER_MUTATOR_API void init(mutator_t * m)
+MULTIPART_MUTATOR_API void init(mutator_t * m)
 {
-	memcpy(m, &manager_mutator, sizeof(mutator_t));
+	memcpy(m, &multipart_mutator, sizeof(mutator_t));
 }
 #endif
 
@@ -272,17 +272,17 @@ static char * get_default_mutator_directory()
 	return NULL; //Couldn't figure out a reasonable default, search the normal library paths instead
 }
 
-static manager_state_t * setup_options(char * options, char * input, size_t input_length)
+static multipart_state_t * setup_options(char * options, char * input, size_t input_length)
 {
-	manager_state_t * state;
+	multipart_state_t * state;
 
-	if (!options || !strlen(options)) //The manager needs options
+	if (!options || !strlen(options)) //The multipart needs options
 		return NULL; //so error out if they weren't provided
 
-	state = (manager_state_t *)malloc(sizeof(manager_state_t));
+	state = (multipart_state_t *)malloc(sizeof(multipart_state_t));
 	if (!state)
 		return NULL;
-	memset(state, 0, sizeof(manager_state_t));
+	memset(state, 0, sizeof(multipart_state_t));
 
 	PARSE_OPTION_STRING(state, options, mutator_directory, "mutator_directory", FUNCNAME(cleanup));
 	PARSE_OPTION_ARRAY(state, options, mutator_names, mutator_count, "mutators", FUNCNAME(cleanup));
@@ -309,9 +309,9 @@ static manager_state_t * setup_options(char * options, char * input, size_t inpu
  * @param input_length - the size of the input buffer
  * @return a mutator specific structure or NULL on failure.
  */
-MANAGER_MUTATOR_API void * FUNCNAME(create)(char * options, char * state, char * input, size_t input_length)
+MULTIPART_MUTATOR_API void * FUNCNAME(create)(char * options, char * state, char * input, size_t input_length)
 {
-	manager_state_t * new_state;
+	multipart_state_t * new_state;
 	new_state = setup_options(options, input, input_length);
 	if (!new_state)
 		return NULL;
@@ -330,9 +330,9 @@ MANAGER_MUTATOR_API void * FUNCNAME(create)(char * options, char * state, char *
  * @param mutator_state - a mutator specific structure previously created by
  * the create function.  This structure will be freed and should not be referenced afterwards.
  */
-MANAGER_MUTATOR_API void FUNCNAME(cleanup)(void * mutator_state)
+MULTIPART_MUTATOR_API void FUNCNAME(cleanup)(void * mutator_state)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	size_t i;
 
 	for (i = 0; i < state->mutator_count; i++)
@@ -352,11 +352,11 @@ MANAGER_MUTATOR_API void FUNCNAME(cleanup)(void * mutator_state)
 }
 
 /**
- * The manager mutator does not implement the mutate function, and thus this function always
+ * The multipart mutator does not implement the mutate function, and thus this function always
  * returns an error (-1).
  * @return - -1 to indicate an error
  */
-MANAGER_MUTATOR_API int FUNCNAME(mutate)(void * mutator_state, char * buffer, size_t buffer_length)
+MULTIPART_MUTATOR_API int FUNCNAME(mutate)(void * mutator_state, char * buffer, size_t buffer_length)
 {
 	return -1;
 }
@@ -364,7 +364,7 @@ MANAGER_MUTATOR_API int FUNCNAME(mutate)(void * mutator_state, char * buffer, si
 /**
  * This function will mutate the input given in the create function and return it in the buffer argument.
  * This function also accepts a set of flags which instruct it how to mutate the input.  See global_types.h
- * for the list of available flags.  The manager mutator does not support mutating all of the inputs given
+ * for the list of available flags.  The multipart mutator does not support mutating all of the inputs given
  * during create at once, so the MUTATE_MULTIPLE_INPUTS flag must be set.
  * @param mutator_state - a mutator specific structure previously created by the create function.
  * @param buffer - a buffer that the mutated input will be written to
@@ -373,9 +373,9 @@ MANAGER_MUTATOR_API int FUNCNAME(mutate)(void * mutator_state, char * buffer, si
  * @param flags - A set of mutate flags that modify how this mutator mutates the input.
  * @return - the length of the mutated data, 0 when the mutator is out of mutations, or -1 on error
  */
-MANAGER_MUTATOR_API int FUNCNAME(mutate_extended)(void * mutator_state, char * buffer, size_t buffer_length, uint64_t flags)
+MULTIPART_MUTATOR_API int FUNCNAME(mutate_extended)(void * mutator_state, char * buffer, size_t buffer_length, uint64_t flags)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	unsigned short input_part = flags & MUTATE_MULTIPLE_INPUTS_MASK;
 	uint64_t inner_flags;
 	if (!(flags & MUTATE_MULTIPLE_INPUTS) || input_part < 0 || input_part >= state->mutator_count)
@@ -392,9 +392,9 @@ MANAGER_MUTATOR_API int FUNCNAME(mutate_extended)(void * mutator_state, char * b
  * @param mutator_state - a mutator specific structure previously created by the create function.
  * @return - a buffer that defines the current state of the mutator.
  */
-MANAGER_MUTATOR_API char * FUNCNAME(get_state)(void * mutator_state)
+MULTIPART_MUTATOR_API char * FUNCNAME(get_state)(void * mutator_state)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	json_t *states_array, *temp;
 	json_error_t error;
 	char * ret, *single_state;
@@ -421,9 +421,9 @@ MANAGER_MUTATOR_API char * FUNCNAME(get_state)(void * mutator_state)
  * @param state - a previously dumped state buffer obtained by the get_state function.
  * @return 0 on success or non-zero on failure
  */
-MANAGER_MUTATOR_API int FUNCNAME(set_state)(void * mutator_state, char * state)
+MULTIPART_MUTATOR_API int FUNCNAME(set_state)(void * mutator_state, char * state)
 {
-	manager_state_t * current_state = (manager_state_t *)mutator_state;
+	multipart_state_t * current_state = (multipart_state_t *)mutator_state;
 	json_t *states_array, *temp;
 	json_error_t error;
 	char *single_state;
@@ -457,9 +457,9 @@ MANAGER_MUTATOR_API int FUNCNAME(set_state)(void * mutator_state, char * state)
  * @param mutator_state - a mutator specific structure previously created by the create function.
  * @return value - the number of previously generated mutations
  */
-MANAGER_MUTATOR_API int FUNCNAME(get_current_iteration)(void * mutator_state)
+MULTIPART_MUTATOR_API int FUNCNAME(get_current_iteration)(void * mutator_state)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	int lowest = -1, temp;
 	size_t i;
 	for (i = 0; i < state->mutator_count; i++) {
@@ -472,15 +472,15 @@ MANAGER_MUTATOR_API int FUNCNAME(get_current_iteration)(void * mutator_state)
 
 /**
  * Returns the total number of mutations possible with this mutator and the current options.
- * For the manager mutator, it will determine the number of mutations possible from all of
+ * For the multipart mutator, it will determine the number of mutations possible from all of
  * the mutators and return the lowest value
  * @param mutator_state - a mutator specific structure previously created by the create function.
  * @return the number of possible mutations with this mutator, or -1 if infinite or the number
  * cannot be determined.
  */
-MANAGER_MUTATOR_API int FUNCNAME(get_total_iteration_count)(void * mutator_state)
+MULTIPART_MUTATOR_API int FUNCNAME(get_total_iteration_count)(void * mutator_state)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	int lowest = -1, temp;
 	size_t i;
 	for (i = 0; i < state->mutator_count; i++) {
@@ -499,9 +499,9 @@ MANAGER_MUTATOR_API int FUNCNAME(get_total_iteration_count)(void * mutator_state
  * @param input_sizes - a pointer to a size_t array used to return the sizes of the inputs given to this
  * mutator when it was created. This parameter is optional and can be NULL, if this information is not needed.
  */
-MANAGER_MUTATOR_API void FUNCNAME(get_input_info)(void * mutator_state, int * num_inputs, size_t **input_sizes)
+MULTIPART_MUTATOR_API void FUNCNAME(get_input_info)(void * mutator_state, int * num_inputs, size_t **input_sizes)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	size_t i;
 	size_t * sizes;
 	if (num_inputs)
@@ -524,9 +524,9 @@ MANAGER_MUTATOR_API void FUNCNAME(get_input_info)(void * mutator_state, int * nu
  * @param input_length - the size in bytes of the input buffer.
  * @return 0 on success and -1 on failure
  */
-MANAGER_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_input, size_t input_length)
+MULTIPART_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_input, size_t input_length)
 {
-	manager_state_t * state = (manager_state_t *)mutator_state;
+	multipart_state_t * state = (multipart_state_t *)mutator_state;
 	size_t inputs_count, i;
 	char **inputs = NULL;
 	size_t * input_lengths;
@@ -550,14 +550,13 @@ MANAGER_MUTATOR_API int FUNCNAME(set_input)(void * mutator_state, char * new_inp
  * @param help_str - A pointer that will be updated to point to the new help string.
  * @return 0 on success and -1 on failure
  */
-MANAGER_MUTATOR_API int FUNCNAME(help)(char **help_str)
+MULTIPART_MUTATOR_API int FUNCNAME(help)(char **help_str)
 {
 	GENERIC_MUTATOR_HELP(
-"manager - a mutator to manage multiple mutators\n"
+"multipart - a mutator to manage multiple mutators\n"
 "Required Options:\n"
 "  mutators              An array of mutator names or library filenames that\n"
-"                          the manager\n"
-"                        mutator should use to mutate the input.\n"
+"                          the multipart mutator should use to mutate the input.\n"
 "Optional Options:\n"
 "  mutator_directory     The directory to look for other mutator libraries in\n"
 "  options               An array of mutator options to pass to each mutator used\n"
