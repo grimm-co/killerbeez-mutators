@@ -33,12 +33,15 @@ add_subdirectory(dictionary_mutator)
 add_subdirectory(havoc_mutator)
 add_subdirectory(honggfuzz_mutator)
 add_subdirectory(interesting_value_mutator)
-add_subdirectory(manager_mutator)
+add_subdirectory(multipart_mutator)
 add_subdirectory(ni_mutator)
 add_subdirectory(nop_mutator)
 add_subdirectory(splice_mutator)
-add_subdirectory(radamsa_mutator)
 add_subdirectory(zzuf_mutator)
+
+if (NOT APPLE)
+add_subdirectory(radamsa_mutator)
+endif (NOT APPLE)
 
 # The mutator test program
 add_subdirectory(mutator_tester)
